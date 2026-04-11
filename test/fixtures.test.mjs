@@ -1,57 +1,55 @@
-import assert from "node:assert/strict";
-import { test } from "node:test";
-import { createQrCode, renderSvg, toSvg } from "../dist/index.js";
+import { describe, expect, test } from "vitest";
+import { createQrCode, renderSvg, toSvg } from "../src/index.ts";
 
-test("creates a version 1 QR matrix for a short numeric payload", () => {
-  const qr = createQrCode("01234567", { errorCorrectionLevel: "M" });
+describe("better-qr", () => {
+  test("creates a version 1 QR matrix for a short numeric payload", () => {
+    const qr = createQrCode("01234567", { errorCorrectionLevel: "M" });
 
-  assert.equal(qr.version, 1);
-  assert.equal(qr.size, 21);
-  assert.equal(qr.errorCorrectionLevel, "M");
-  assert.equal(qr.modules.length, 21);
-  assert.equal(qr.modules[0].length, 21);
-  assert.equal(qr.isDark(0, 0), true);
-});
-
-test("renders SVG with escaped text-safe attributes", () => {
-  const svg = toSvg("hello <qr> & world", {
-    margin: 2,
-    foreground: "#111",
-    background: "#fff"
+    expect(qr.version).toBe(1);
+    expect(qr.size).toBe(21);
+    expect(qr.errorCorrectionLevel).toBe("M");
+    expect(qr.modules).toHaveLength(21);
+    expect(qr.modules[0]).toHaveLength(21);
+    expect(qr.isDark(0, 0)).toBe(true);
   });
 
-  assert.match(svg, /^<svg /);
-  assert.match(svg, /viewBox="0 0 /);
-  assert.match(svg, /<rect width="100%" height="100%" fill="#fff"\/>/);
-  assert.doesNotMatch(svg, /hello <qr>/);
-});
+  test("renders SVG with escaped text-safe attributes", () => {
+    const svg = toSvg("hello <qr> & world", {
+      margin: 2,
+      foreground: "#111",
+      background: "#fff"
+    });
 
-test("embeds center icon and defaults to high error correction for toSvg", () => {
-  const svg = toSvg("https://example.com", {
-    icon: {
-      href: "data:image/png;base64,AA==",
-      sizeRatio: 0.2,
-      paddingRatio: 0.04,
-      background: "#ffffff",
-      radius: 4
-    }
+    expect(svg).toMatch(/^<svg /);
+    expect(svg).toMatch(/viewBox="0 0 /);
+    expect(svg).toMatch(/<rect width="100%" height="100%" fill="#fff"\/>/);
+    expect(svg).not.toContain("hello <qr>");
   });
 
-  assert.match(svg, /<image /);
-  assert.match(svg, /href="data:image\/png;base64,AA=="/);
-});
+  test("embeds center icon and defaults to high error correction for toSvg", () => {
+    const svg = toSvg("https://example.com", {
+      icon: {
+        href: "data:image/png;base64,AA==",
+        sizeRatio: 0.2,
+        paddingRatio: 0.04,
+        background: "#ffffff",
+        radius: 4
+      }
+    });
 
-test("rejects data that cannot fit in the selected version", () => {
-  assert.throws(
-    () => createQrCode("x".repeat(100), { version: 1, errorCorrectionLevel: "H" }),
-    /does not fit/
-  );
-});
+    expect(svg).toContain("<image ");
+    expect(svg).toContain('href="data:image/png;base64,AA=="');
+  });
 
-test("renderSvg accepts an already-created QR code", () => {
-  const qr = createQrCode(new Uint8Array([0, 1, 2, 3]), { errorCorrectionLevel: "Q" });
-  const svg = renderSvg(qr, { moduleSize: 3, margin: 1 });
+  test("rejects data that cannot fit in the selected version", () => {
+    expect(() => createQrCode("x".repeat(100), { version: 1, errorCorrectionLevel: "H" })).toThrow(/does not fit/);
+  });
 
-  assert.match(svg, /^<svg /);
-  assert.match(svg, /shape-rendering="crispEdges"/);
+  test("renderSvg accepts an already-created QR code", () => {
+    const qr = createQrCode(new Uint8Array([0, 1, 2, 3]), { errorCorrectionLevel: "Q" });
+    const svg = renderSvg(qr, { moduleSize: 3, margin: 1 });
+
+    expect(svg).toMatch(/^<svg /);
+    expect(svg).toContain('shape-rendering="crispEdges"');
+  });
 });
