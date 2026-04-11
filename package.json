@@ -1,0 +1,42 @@
+{
+  "name": "better-qr",
+  "version": "0.1.0",
+  "description": "No-runtime-dependency TypeScript QR code generator with SVG rendering and optional center icons from your own.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "rollup -c && tsc -p tsconfig.types.json",
+    "coverage": "npm run build && node scripts/coverage-dir.mjs && node --test --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=coverage/lcov.info",
+    "demo": "node scripts/demo-server.mjs",
+    "test": "npm run build && node --test",
+    "check": "npm test"
+  },
+  "keywords": [
+    "qr",
+    "qrcode",
+    "iso-iec-18004",
+    "svg",
+    "typescript"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^12.3.0",
+    "rollup": "^4.60.1",
+    "tslib": "^2.8.1",
+    "typescript": "^5.8.3"
+  }
+}
