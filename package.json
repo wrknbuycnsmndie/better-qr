@@ -1,6 +1,6 @@
 {
   "name": "better-qr",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "No-runtime-dependency TypeScript QR code generator with SVG rendering and optional center icons from your own.",
   "type": "module",
   "main": "./dist/index.js",
