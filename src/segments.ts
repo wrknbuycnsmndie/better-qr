@@ -1,5 +1,5 @@
 import type { BitBuffer } from "./bit-buffer.js";
-import { ALPHANUMERIC_CHARSET } from "./tables.js";
+import { getAlphanumericValue, isAlphanumericChar } from "./tables.js";
 import type { EncodingMode, ResolvedMode } from "./types.js";
 
 const MODE_INDICATORS: Record<ResolvedMode, number> = {
@@ -64,7 +64,7 @@ function pickTextMode(input: string): ResolvedMode {
   if (/^[0-9]*$/.test(input)) {
     return "numeric";
   }
-  if ([...input].every((char) => ALPHANUMERIC_CHARSET.includes(char))) {
+  if ([...input].every(isAlphanumericChar)) {
     return "alphanumeric";
   }
   return "byte";
@@ -90,7 +90,7 @@ function makeNumericSegment(input: string): Segment {
 }
 
 function makeAlphanumericSegment(input: string): Segment {
-  const indexes = [...input].map((char) => ALPHANUMERIC_CHARSET.indexOf(char));
+  const indexes = [...input].map(getAlphanumericValue);
   if (indexes.some((index) => index < 0)) {
     throw new TypeError("Alphanumeric QR mode only accepts digits, uppercase letters, space, and $%*+-./:");
   }

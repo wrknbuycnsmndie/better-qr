@@ -3,7 +3,7 @@ import { drawFunctionPatterns, drawFormatBits } from "./function-patterns.js";
 import { findBestMask } from "./mask.js";
 import { applyMask, createMatrixState, drawCodewords, toQrCode } from "./matrix.js";
 import { getTotalBits, makeSegment, type Segment } from "./segments.js";
-import { getNumDataCodewords } from "./tables.js";
+import { canFitDataBits } from "./tables.js";
 import type { ErrorCorrectionLevel, QrCode, QrOptions } from "./types.js";
 import {
   MAX_VERSION,
@@ -82,14 +82,10 @@ function chooseVersion(
 ): VersionChoice {
   for (let version = minVersion; version <= maxVersion; version++) {
     const dataUsedBits = getTotalBits(segment, version);
-    if (dataUsedBits !== undefined && fitsVersion(dataUsedBits, version, errorCorrectionLevel)) {
+    if (dataUsedBits !== undefined && canFitDataBits(dataUsedBits, version, errorCorrectionLevel)) {
       return { version, dataUsedBits };
     }
   }
 
   throw new RangeError(`Input data does not fit in QR versions ${minVersion}-${maxVersion} with error correction ${errorCorrectionLevel}`);
-}
-
-function fitsVersion(dataUsedBits: number, version: number, errorCorrectionLevel: ErrorCorrectionLevel): boolean {
-  return dataUsedBits <= getNumDataCodewords(version, errorCorrectionLevel) * 8;
 }

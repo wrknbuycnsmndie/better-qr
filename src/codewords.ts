@@ -1,12 +1,7 @@
 import { createBitBuffer } from "./bit-buffer.js";
 import { reedSolomonComputeDivisor, reedSolomonComputeRemainder } from "./reed-solomon.js";
 import { appendSegment, type Segment } from "./segments.js";
-import {
-  ECC_CODEWORDS_PER_BLOCK,
-  getNumDataCodewords,
-  getNumRawDataModules,
-  NUM_ERROR_CORRECTION_BLOCKS
-} from "./tables.js";
+import { getDataCapacityBits, getErrorCorrectionBlockLayout } from "./tables.js";
 import type { ErrorCorrectionLevel } from "./types.js";
 
 /**
@@ -18,7 +13,7 @@ export function createDataCodewords(
   errorCorrectionLevel: ErrorCorrectionLevel,
   dataUsedBits: number
 ): number[] {
-  const dataCapacityBits = getNumDataCodewords(version, errorCorrectionLevel) * 8;
+  const dataCapacityBits = getDataCapacityBits(version, errorCorrectionLevel);
   const buffer = createBitBuffer();
   appendSegment(buffer, segment, version);
 
@@ -46,20 +41,11 @@ export function addErrorCorrectionAndInterleave(
   version: number,
   errorCorrectionLevel: ErrorCorrectionLevel
 ): number[] {
-  const numBlocks = NUM_ERROR_CORRECTION_BLOCKS[errorCorrectionLevel][version];
-  const blockEccLength = ECC_CODEWORDS_PER_BLOCK[errorCorrectionLevel][version];
-  if (numBlocks === undefined || blockEccLength === undefined) {
-    throw new RangeError(`Invalid QR version ${version}`);
-  }
+  const layout = getErrorCorrectionBlockLayout(version, errorCorrectionLevel);
+  const rsDivisor = reedSolomonComputeDivisor(layout.blockEccLength);
+  const blocks = createBlocks(data, layout.numBlocks, layout.numShortBlocks, layout.shortDataBlockLength, rsDivisor);
 
-  const rawCodewords = Math.floor(getNumRawDataModules(version) / 8);
-  const numShortBlocks = numBlocks - (rawCodewords % numBlocks);
-  const shortBlockLength = Math.floor(rawCodewords / numBlocks);
-  const shortDataBlockLength = shortBlockLength - blockEccLength;
-  const rsDivisor = reedSolomonComputeDivisor(blockEccLength);
-  const blocks = createBlocks(data, numBlocks, numShortBlocks, shortDataBlockLength, rsDivisor);
-
-  return interleaveBlocks(blocks, rawCodewords, shortDataBlockLength, numShortBlocks);
+  return interleaveBlocks(blocks, layout.rawCodewords, layout.shortDataBlockLength, layout.numShortBlocks);
 }
 
 function createBlocks(

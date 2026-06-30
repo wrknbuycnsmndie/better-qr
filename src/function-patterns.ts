@@ -1,4 +1,4 @@
-import { ECC_FORMAT_BITS } from "./tables.js";
+import { getErrorCorrectionFormatBits } from "./tables.js";
 import { setFunctionModule, type MatrixState } from "./matrix.js";
 
 /**
@@ -18,7 +18,7 @@ export function drawFunctionPatterns(state: MatrixState): void {
  * Draws error-correction and mask metadata into the QR format information areas.
  */
 export function drawFormatBits(state: MatrixState, mask: number): void {
-  const data = (ECC_FORMAT_BITS[state.errorCorrectionLevel] << 3) | mask;
+  const data = (getErrorCorrectionFormatBits(state.errorCorrectionLevel) << 3) | mask;
   let remainder = data;
   for (let i = 0; i < 10; i++) {
     remainder = (remainder << 1) ^ ((remainder >>> 9) * 0x537);
