@@ -6,9 +6,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Small QR code generator with SVG output.  
-No runtime dependencies. Works in the browser out of the box.
+No runtime dependencies. ESM, ready for modern bundlers and runtimes.
 
-Supports center icons (PNG / URL / data URI) without breaking scanability.
+Supports center icons (PNG / URL / data URI). Use high error correction and test important codes with real scanners.
 
 ---
 
@@ -93,6 +93,7 @@ type Options = {
   minVersion?: number;
   maxVersion?: number;
   maskPattern?: number;
+  mode?: 'auto' | 'numeric' | 'alphanumeric' | 'byte';
 
   foreground?: string;
   background?: string;
@@ -114,8 +115,9 @@ type Options = {
 
 Notes:
 
-- default error correction = `M`
-- if `icon` is set → defaults to `H`
+- `toSvg()` defaults error correction to `M`
+- `toSvg()` defaults error correction to `H` when `icon` is set
+- plain browsers need a bundler, import map, local ESM file, or ESM CDN to import `better-qr`
 
 ---
 
