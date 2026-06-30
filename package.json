@@ -29,7 +29,6 @@
   "scripts": {
     "build": "rollup -c && tsc -p tsconfig.types.json",
     "coverage": "vitest run --coverage",
-    "demo": "node scripts/demo-server.mjs",
     "test": "vitest run",
     "check": "npm run build && npm run coverage"
   },
