@@ -17,7 +17,12 @@
     }
   },
   "files": [
-    "dist",
+    "dist/index.js",
+    "dist/index.js.map",
+    "dist/index.d.ts",
+    "dist/qr-code.d.ts",
+    "dist/svg.d.ts",
+    "dist/types.d.ts",
     "README.md",
     "LICENSE"
   ],

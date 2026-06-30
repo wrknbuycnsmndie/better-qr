@@ -65,4 +65,3 @@ export interface SvgRenderOptions {
 
 export type ToSvgOptions = QrOptions & SvgRenderOptions;
 
-export type ResolvedMode = Exclude<EncodingMode, "auto">;

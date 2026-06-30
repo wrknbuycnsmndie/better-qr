@@ -1,6 +1,8 @@
 import type { BitBuffer } from "./bit-buffer.js";
 import { getAlphanumericValue, isAlphanumericChar } from "./tables.js";
-import type { EncodingMode, ResolvedMode } from "./types.js";
+import type { EncodingMode } from "./types.js";
+
+type ResolvedMode = Exclude<EncodingMode, "auto">;
 
 const MODE_INDICATORS: Record<ResolvedMode, number> = {
   numeric: 0b0001,
