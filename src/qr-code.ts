@@ -1,7 +1,5 @@
 import { addErrorCorrectionAndInterleave, createDataCodewords } from "./codewords.js";
-import { drawFunctionPatterns, drawFormatBits } from "./function-patterns.js";
-import { findBestMask } from "./mask.js";
-import { applyMask, createMatrixState, drawCodewords, toQrCode } from "./matrix.js";
+import { createQrSymbol } from "./symbol.js";
 import { getTotalBits, makeSegment, type Segment } from "./segments.js";
 import { canFitDataBits } from "./tables.js";
 import type { ErrorCorrectionLevel, QrCode, QrOptions } from "./types.js";
@@ -24,16 +22,8 @@ export function createQrCode(input: string | Uint8Array, options: QrOptions = {}
   const { version, dataUsedBits } = chooseVersion(segment, minVersion, maxVersion, errorCorrectionLevel);
   const dataCodewords = createDataCodewords(segment, version, errorCorrectionLevel, dataUsedBits);
   const allCodewords = addErrorCorrectionAndInterleave(dataCodewords, version, errorCorrectionLevel);
-  const matrix = createMatrixState(version, errorCorrectionLevel);
 
-  drawFunctionPatterns(matrix);
-  drawCodewords(matrix, allCodewords);
-
-  const selectedMask = maskPattern ?? findBestMask(matrix);
-  applyMask(matrix, selectedMask);
-  drawFormatBits(matrix, selectedMask);
-
-  return toQrCode(matrix, selectedMask);
+  return createQrSymbol(version, errorCorrectionLevel, allCodewords, maskPattern);
 }
 
 interface VersionRange {
