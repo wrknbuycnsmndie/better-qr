@@ -1,10 +1,11 @@
 import { describe, expect, test } from "vitest";
+
 import {
   countBalancePenalty,
   countBlockPenalty,
   countFinderLikePatternPenalty,
   countRunPenalty,
-  getPenaltyScore
+  getPenaltyScore,
 } from "../src/mask-scoring.ts";
 
 describe("pure mask penalty scoring", () => {
@@ -15,22 +16,28 @@ describe("pure mask penalty scoring", () => {
   });
 
   test("penalizes 2x2 same-color blocks", () => {
-    expect(countBlockPenalty([
-      [true, true],
-      [true, true]
-    ])).toBe(3);
+    expect(
+      countBlockPenalty([
+        [true, true],
+        [true, true],
+      ]),
+    ).toBe(3);
 
-    expect(countBlockPenalty([
-      [true, false],
-      [false, true]
-    ])).toBe(0);
+    expect(
+      countBlockPenalty([
+        [true, false],
+        [false, true],
+      ]),
+    ).toBe(0);
   });
 
   test("penalizes finder-like patterns horizontally and vertically", () => {
     const pattern = [true, false, true, true, true, false, true, false, false, false, false];
-    const finderLikeRow = Array.from({ length: 11 }, (_, row) => row === 0 ? pattern : Array.from({ length: 11 }, () => false));
+    const finderLikeRow = Array.from({ length: 11 }, (_, row) =>
+      row === 0 ? pattern : Array.from({ length: 11 }, () => false),
+    );
     const finderLikeColumn = Array.from({ length: 11 }, (_, row) =>
-      Array.from({ length: 11 }, (_, column) => column === 0 ? pattern[row] : false)
+      Array.from({ length: 11 }, (_, column) => (column === 0 ? pattern[row] : false)),
     );
 
     expect(countFinderLikePatternPenalty(finderLikeRow)).toBe(40);
@@ -38,15 +45,19 @@ describe("pure mask penalty scoring", () => {
   });
 
   test("penalizes dark/light imbalance", () => {
-    expect(countBalancePenalty([
-      [true, false],
-      [true, false]
-    ])).toBe(0);
+    expect(
+      countBalancePenalty([
+        [true, false],
+        [true, false],
+      ]),
+    ).toBe(0);
 
-    expect(countBalancePenalty([
-      [true, true],
-      [true, true]
-    ])).toBe(100);
+    expect(
+      countBalancePenalty([
+        [true, true],
+        [true, true],
+      ]),
+    ).toBe(100);
   });
 
   test("combines all penalty rules without mutating input", () => {
@@ -55,7 +66,7 @@ describe("pure mask penalty scoring", () => {
       [true, true, true, true, true],
       [false, false, false, false, false],
       [false, true, false, true, false],
-      [false, true, false, true, false]
+      [false, true, false, true, false],
     ];
     const before = modules.map((row) => row.slice());
 

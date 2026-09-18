@@ -36,22 +36,22 @@ npm install better-qr
 ## Usage
 
 ```ts
-import { toSvg } from 'better-qr';
+import { toSvg } from "better-qr";
 
-const svg = toSvg('https://example.com');
-document.querySelector('#qr')!.innerHTML = svg;
+const svg = toSvg("https://example.com");
+document.querySelector("#qr")!.innerHTML = svg;
 ```
 
 With icon:
 
 ```ts
-const svg = toSvg('https://example.com', {
-  errorCorrectionLevel: 'H',
+const svg = toSvg("https://example.com", {
+  errorCorrectionLevel: "H",
   icon: {
-    href: './logo.png',
+    href: "./logo.png",
     sizeRatio: 0.18,
     paddingRatio: 0.035,
-    background: '#fff',
+    background: "#fff",
     radius: 3,
   },
 });
@@ -88,12 +88,12 @@ Strings are auto-detected (numeric / alphanumeric / byte).
 
 ```ts
 type Options = {
-  errorCorrectionLevel?: 'L' | 'M' | 'Q' | 'H';
+  errorCorrectionLevel?: "L" | "M" | "Q" | "H";
   version?: number;
   minVersion?: number;
   maxVersion?: number;
   maskPattern?: number;
-  mode?: 'auto' | 'numeric' | 'alphanumeric' | 'byte';
+  mode?: "auto" | "numeric" | "alphanumeric" | "byte";
 
   foreground?: string;
   background?: string;

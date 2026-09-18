@@ -1,4 +1,5 @@
 import { describe, expect, test } from "vitest";
+
 import { createQrCode, renderSvg, toSvg } from "../src/index.ts";
 
 describe("public package interface", () => {
@@ -8,7 +9,7 @@ describe("public package interface", () => {
     expect(api).toMatchObject({
       createQrCode: expect.any(Function),
       renderSvg: expect.any(Function),
-      toSvg: expect.any(Function)
+      toSvg: expect.any(Function),
     });
   });
 
@@ -22,8 +23,8 @@ describe("public package interface", () => {
     expect(() =>
       toSvg("HELLO WORLD", {
         version: 1,
-        icon: { href: "./logo.png" }
-      })
+        icon: { href: "./logo.png" },
+      }),
     ).toThrow(/does not fit/);
   });
 
@@ -31,7 +32,7 @@ describe("public package interface", () => {
     const svg = toSvg("HELLO WORLD", {
       version: 1,
       errorCorrectionLevel: "M",
-      icon: { href: "./logo.png" }
+      icon: { href: "./logo.png" },
     });
 
     expect(svg).toMatch(/^<svg /);

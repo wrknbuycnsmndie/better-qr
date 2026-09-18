@@ -1,8 +1,9 @@
 import { describe, expect, test } from "vitest";
+
 import { drawFunctionPatterns } from "../src/function-patterns.ts";
 import { createQrCode } from "../src/index.ts";
-import { applyMask, createMatrixState } from "../src/matrix.ts";
 import { findBestMask } from "../src/mask.ts";
+import { applyMask, createMatrixState } from "../src/matrix.ts";
 
 describe("masking", () => {
   test("applies masks only to data modules", () => {

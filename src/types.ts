@@ -64,4 +64,3 @@ export interface SvgRenderOptions {
 }
 
 export type ToSvgOptions = QrOptions & SvgRenderOptions;
-

@@ -1,4 +1,5 @@
 import { describe, expect, test } from "vitest";
+
 import { createQrCode, renderSvg, toSvg } from "../src/index.ts";
 
 describe("SVG rendering", () => {
@@ -10,8 +11,8 @@ describe("SVG rendering", () => {
       icon: {
         href: 'logo"<script>&.png',
         background: 'patch"<bg>&',
-        radius: 2
-      }
+        radius: 2,
+      },
     });
 
     expect(svg).toContain("<title>QR &lt;title&gt; &amp; text</title>");
@@ -30,8 +31,8 @@ describe("SVG rendering", () => {
         href: "./logo.png",
         sizeRatio: 0.2,
         paddingRatio: 0.05,
-        radius: 1.5
-      }
+        radius: 1.5,
+      },
     });
 
     expect(svg).toContain('viewBox="0 0 23.5 23.5"');

@@ -1,7 +1,8 @@
 import { describe, expect, test } from "vitest";
+
 import { drawFunctionPatterns } from "../src/function-patterns.ts";
-import { createMatrixState, toQrCode } from "../src/matrix.ts";
 import { createQrCode } from "../src/index.ts";
+import { createMatrixState, toQrCode } from "../src/matrix.ts";
 
 describe("QR matrix", () => {
   test("sizes the matrix from the QR version", () => {
@@ -47,7 +48,11 @@ describe("QR matrix", () => {
   });
 
   test("fixed mask pattern is preserved on generated QR codes", () => {
-    const qr = createQrCode("HELLO WORLD", { version: 1, errorCorrectionLevel: "M", maskPattern: 4 });
+    const qr = createQrCode("HELLO WORLD", {
+      version: 1,
+      errorCorrectionLevel: "M",
+      maskPattern: 4,
+    });
 
     expect(qr.maskPattern).toBe(4);
     expect(qr.size).toBe(21);

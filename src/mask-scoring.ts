@@ -35,7 +35,11 @@ export function countBlockPenalty(modules: readonly (readonly boolean[])[]): num
   for (let y = 0; y < modules.length - 1; y++) {
     for (let x = 0; x < modules.length - 1; x++) {
       const color = modules[y]?.[x];
-      if (color === modules[y]?.[x + 1] && color === modules[y + 1]?.[x] && color === modules[y + 1]?.[x + 1]) {
+      if (
+        color === modules[y]?.[x + 1] &&
+        color === modules[y + 1]?.[x] &&
+        color === modules[y + 1]?.[x + 1]
+      ) {
         result += PENALTY_N2;
       }
     }
@@ -108,28 +112,27 @@ function countLineRunPenalty(line: readonly boolean[]): number {
 function hasFinderLikePattern(get: (offset: number) => boolean): boolean {
   // Penalize the 1:1:3:1:1 finder-like run with four light modules on either side.
   return (
-    get(0) &&
-    !get(1) &&
-    get(2) &&
-    get(3) &&
-    get(4) &&
-    !get(5) &&
-    get(6) &&
-    !get(7) &&
-    !get(8) &&
-    !get(9) &&
-    !get(10)
-  ) || (
-    !get(0) &&
-    !get(1) &&
-    !get(2) &&
-    !get(3) &&
-    get(4) &&
-    !get(5) &&
-    get(6) &&
-    get(7) &&
-    get(8) &&
-    !get(9) &&
-    get(10)
+    (get(0) &&
+      !get(1) &&
+      get(2) &&
+      get(3) &&
+      get(4) &&
+      !get(5) &&
+      get(6) &&
+      !get(7) &&
+      !get(8) &&
+      !get(9) &&
+      !get(10)) ||
+    (!get(0) &&
+      !get(1) &&
+      !get(2) &&
+      !get(3) &&
+      get(4) &&
+      !get(5) &&
+      get(6) &&
+      get(7) &&
+      get(8) &&
+      !get(9) &&
+      get(10))
   );
 }

@@ -14,7 +14,7 @@ export function createQrSymbol(
   version: number,
   errorCorrectionLevel: ErrorCorrectionLevel,
   codewords: readonly number[],
-  requestedMaskPattern?: number
+  requestedMaskPattern?: number,
 ): QrCode {
   const matrix = createMatrixState(version, errorCorrectionLevel);
 

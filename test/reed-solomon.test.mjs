@@ -1,8 +1,9 @@
 import { describe, expect, test } from "vitest";
+
 import {
   reedSolomonComputeDivisor,
   reedSolomonComputeRemainder,
-  reedSolomonMultiply
+  reedSolomonMultiply,
 } from "../src/reed-solomon.ts";
 
 describe("Reed-Solomon error correction", () => {
@@ -14,7 +15,7 @@ describe("Reed-Solomon error correction", () => {
     const divisor = reedSolomonComputeDivisor(10);
 
     expect(reedSolomonComputeRemainder([32, 91, 11, 120, 209, 114, 220], divisor)).toEqual([
-      250, 65, 36, 91, 41, 102, 76, 98, 187, 105
+      250, 65, 36, 91, 41, 102, 76, 98, 187, 105,
     ]);
   });
 

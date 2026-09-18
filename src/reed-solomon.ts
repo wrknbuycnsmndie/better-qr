@@ -23,7 +23,10 @@ export function reedSolomonComputeDivisor(degree: number): number[] {
   return result;
 }
 
-export function reedSolomonComputeRemainder(data: readonly number[], divisor: readonly number[]): number[] {
+export function reedSolomonComputeRemainder(
+  data: readonly number[],
+  divisor: readonly number[],
+): number[] {
   const result = new Array<number>(divisor.length).fill(0);
 
   for (const byte of data) {
@@ -43,7 +46,7 @@ export function reedSolomonComputeRemainder(data: readonly number[], divisor: re
 }
 
 export function reedSolomonMultiply(x: number, y: number): number {
-  if ((x >>> 8) !== 0 || (y >>> 8) !== 0) {
+  if (x >>> 8 !== 0 || y >>> 8 !== 0) {
     throw new RangeError("Reed-Solomon operands must be bytes");
   }
 
