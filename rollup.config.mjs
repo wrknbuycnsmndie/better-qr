@@ -1,18 +1,25 @@
 import typescript from "@rollup/plugin-typescript";
 
-export default {
-  input: "src/index.ts",
-  output: {
-    file: "dist/index.js",
-    format: "esm",
-    sourcemap: true
-  },
-  plugins: [
-    typescript({
-      tsconfig: "./tsconfig.rollup.json"
-    })
-  ],
-  treeshake: {
-    moduleSideEffects: false
-  }
-};
+function createConfig(input, file) {
+  return {
+    input,
+    output: {
+      file,
+      format: "esm",
+      sourcemap: true,
+    },
+    plugins: [
+      typescript({
+        tsconfig: "./tsconfig.rollup.json",
+      }),
+    ],
+    treeshake: {
+      moduleSideEffects: false,
+    },
+  };
+}
+
+export default [
+  createConfig("src/index.ts", "dist/index.js"),
+  createConfig("src/render-model.ts", "dist/render-model.js"),
+];
