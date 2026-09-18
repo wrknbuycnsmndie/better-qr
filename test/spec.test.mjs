@@ -1,4 +1,5 @@
 import { describe, expect, test } from "vitest";
+
 import {
   canFitDataBits,
   getAlphanumericValue,
@@ -7,7 +8,7 @@ import {
   getErrorCorrectionFormatBits,
   getNumDataCodewords,
   getNumRawDataModules,
-  isAlphanumericChar
+  isAlphanumericChar,
 } from "../src/tables.ts";
 
 describe("QR spec tables", () => {
@@ -42,7 +43,7 @@ describe("QR spec tables", () => {
       numBlocks: 1,
       blockEccLength: 10,
       numShortBlocks: 1,
-      shortDataBlockLength: 16
+      shortDataBlockLength: 16,
     });
 
     expect(getErrorCorrectionBlockLayout(5, "Q")).toEqual({
@@ -50,7 +51,7 @@ describe("QR spec tables", () => {
       numBlocks: 4,
       blockEccLength: 18,
       numShortBlocks: 2,
-      shortDataBlockLength: 15
+      shortDataBlockLength: 15,
     });
   });
 

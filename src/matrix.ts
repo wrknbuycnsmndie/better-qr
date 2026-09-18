@@ -14,14 +14,17 @@ export interface MatrixState {
 /**
  * Creates the mutable matrix used while building a QR symbol.
  */
-export function createMatrixState(version: number, errorCorrectionLevel: ErrorCorrectionLevel): MatrixState {
+export function createMatrixState(
+  version: number,
+  errorCorrectionLevel: ErrorCorrectionLevel,
+): MatrixState {
   const size = version * 4 + 17;
   return {
     version,
     size,
     errorCorrectionLevel,
     modules: createMatrix(size, false),
-    isFunction: createMatrix(size, false)
+    isFunction: createMatrix(size, false),
   };
 }
 
@@ -78,11 +81,18 @@ export function toQrCode(state: MatrixState, maskPattern: number): QrCode {
     maskPattern,
     modules,
     isDark(row: number, column: number): boolean {
-      if (row < 0 || row >= size || column < 0 || column >= size || !Number.isInteger(row) || !Number.isInteger(column)) {
+      if (
+        row < 0 ||
+        row >= size ||
+        column < 0 ||
+        column >= size ||
+        !Number.isInteger(row) ||
+        !Number.isInteger(column)
+      ) {
         throw new RangeError("QR module coordinates are out of range");
       }
       return modules[row][column];
-    }
+    },
   };
 }
 
@@ -91,7 +101,7 @@ function drawCodewordColumnPair(
   data: readonly number[],
   right: number,
   y: number,
-  startBitIndex: number
+  startBitIndex: number,
 ): void {
   let bitIndex = startBitIndex;
 
@@ -99,7 +109,8 @@ function drawCodewordColumnPair(
     const x = right - j;
     if (!state.isFunction[y][x]) {
       const byte = data[bitIndex >>> 3];
-      state.modules[y][x] = byte === undefined ? false : (((byte >>> (7 - (bitIndex & 7))) & 1) !== 0);
+      state.modules[y][x] =
+        byte === undefined ? false : ((byte >>> (7 - (bitIndex & 7))) & 1) !== 0;
       bitIndex++;
     }
   }

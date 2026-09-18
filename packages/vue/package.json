@@ -1,0 +1,49 @@
+{
+  "name": "@better-qr/vue",
+  "version": "0.2.0",
+  "description": "Vue 3 adapter for better-qr",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rollup -c && tsc -p tsconfig.types.json",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit",
+    "prepack": "npm run build",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "better-qr": "^0.2.0",
+    "vue": ">=3.3"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^12.3.0",
+    "@vue/server-renderer": "^3.5.0",
+    "better-qr": "file:../..",
+    "rollup": "^4.60.1",
+    "tslib": "^2.8.1",
+    "typescript": "^5.8.3",
+    "vitest": "^4.1.4",
+    "vue": "^3.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wrknbuycnsmndie/better-qr.git",
+    "directory": "packages/vue"
+  },
+  "license": "MIT"
+}

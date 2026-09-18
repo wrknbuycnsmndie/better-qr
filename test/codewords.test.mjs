@@ -1,4 +1,5 @@
 import { describe, expect, test } from "vitest";
+
 import { addErrorCorrectionAndInterleave, createDataCodewords } from "../src/codewords.ts";
 import { getTotalBits, makeSegment } from "../src/segments.ts";
 import { getNumDataCodewords, getNumRawDataModules } from "../src/tables.ts";

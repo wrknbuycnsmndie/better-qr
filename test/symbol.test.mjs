@@ -1,9 +1,15 @@
 import { describe, expect, test } from "vitest";
+
 import { createQrSymbol } from "../src/symbol.ts";
 
 describe("QR symbol layout", () => {
   test("creates a public QR code from interleaved codewords", () => {
-    const qr = createQrSymbol(1, "M", Array.from({ length: 26 }, () => 0), 3);
+    const qr = createQrSymbol(
+      1,
+      "M",
+      Array.from({ length: 26 }, () => 0),
+      3,
+    );
 
     expect(qr.version).toBe(1);
     expect(qr.size).toBe(21);
@@ -15,7 +21,11 @@ describe("QR symbol layout", () => {
   });
 
   test("owns automatic mask selection for the symbol", () => {
-    const qr = createQrSymbol(1, "M", Array.from({ length: 26 }, (_, index) => index));
+    const qr = createQrSymbol(
+      1,
+      "M",
+      Array.from({ length: 26 }, (_, index) => index),
+    );
 
     expect(qr.maskPattern).toBeGreaterThanOrEqual(0);
     expect(qr.maskPattern).toBeLessThanOrEqual(7);

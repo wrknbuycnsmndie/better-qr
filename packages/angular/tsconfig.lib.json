@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM"],
+    "strict": true,
+    "exactOptionalPropertyTypes": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "importHelpers": true,
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
+    "paths": {
+      "better-qr": ["../../dist/index.d.ts"],
+      "better-qr/render-model": ["../../dist/render-model.d.ts"]
+    }
+  },
+  "angularCompilerOptions": {
+    "compilationMode": "partial",
+    "strictInjectionParameters": true,
+    "strictTemplates": true
+  },
+  "include": ["src/**/*.ts"]
+}

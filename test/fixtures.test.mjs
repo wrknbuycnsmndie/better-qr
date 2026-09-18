@@ -1,4 +1,5 @@
 import { describe, expect, test } from "vitest";
+
 import { createQrCode, renderSvg, toSvg } from "../src/index.ts";
 
 describe("better-qr", () => {
@@ -17,7 +18,7 @@ describe("better-qr", () => {
     const svg = toSvg("hello <qr> & world", {
       margin: 2,
       foreground: "#111",
-      background: "#fff"
+      background: "#fff",
     });
 
     expect(svg).toMatch(/^<svg /);
@@ -33,8 +34,8 @@ describe("better-qr", () => {
         sizeRatio: 0.2,
         paddingRatio: 0.04,
         background: "#ffffff",
-        radius: 4
-      }
+        radius: 4,
+      },
     });
 
     expect(svg).toContain("<image ");
@@ -42,7 +43,9 @@ describe("better-qr", () => {
   });
 
   test("rejects data that cannot fit in the selected version", () => {
-    expect(() => createQrCode("x".repeat(100), { version: 1, errorCorrectionLevel: "H" })).toThrow(/does not fit/);
+    expect(() => createQrCode("x".repeat(100), { version: 1, errorCorrectionLevel: "H" })).toThrow(
+      /does not fit/,
+    );
   });
 
   test("renderSvg accepts an already-created QR code", () => {

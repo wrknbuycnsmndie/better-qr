@@ -11,7 +11,7 @@ export function createDataCodewords(
   segment: Segment,
   version: number,
   errorCorrectionLevel: ErrorCorrectionLevel,
-  dataUsedBits: number
+  dataUsedBits: number,
 ): number[] {
   const dataCapacityBits = getDataCapacityBits(version, errorCorrectionLevel);
   const buffer = createBitBuffer();
@@ -39,13 +39,24 @@ export function createDataCodewords(
 export function addErrorCorrectionAndInterleave(
   data: readonly number[],
   version: number,
-  errorCorrectionLevel: ErrorCorrectionLevel
+  errorCorrectionLevel: ErrorCorrectionLevel,
 ): number[] {
   const layout = getErrorCorrectionBlockLayout(version, errorCorrectionLevel);
   const rsDivisor = reedSolomonComputeDivisor(layout.blockEccLength);
-  const blocks = createBlocks(data, layout.numBlocks, layout.numShortBlocks, layout.shortDataBlockLength, rsDivisor);
+  const blocks = createBlocks(
+    data,
+    layout.numBlocks,
+    layout.numShortBlocks,
+    layout.shortDataBlockLength,
+    rsDivisor,
+  );
 
-  return interleaveBlocks(blocks, layout.rawCodewords, layout.shortDataBlockLength, layout.numShortBlocks);
+  return interleaveBlocks(
+    blocks,
+    layout.rawCodewords,
+    layout.shortDataBlockLength,
+    layout.numShortBlocks,
+  );
 }
 
 function createBlocks(
@@ -53,7 +64,7 @@ function createBlocks(
   numBlocks: number,
   numShortBlocks: number,
   shortDataBlockLength: number,
-  rsDivisor: readonly number[]
+  rsDivisor: readonly number[],
 ): number[][] {
   const blocks: number[][] = [];
   let dataOffset = 0;
@@ -81,7 +92,7 @@ function interleaveBlocks(
   blocks: readonly (readonly number[])[],
   rawCodewords: number,
   shortDataBlockLength: number,
-  numShortBlocks: number
+  numShortBlocks: number,
 ): number[] {
   const result: number[] = [];
   const blockLength = blocks[0]?.length;

@@ -1,0 +1,51 @@
+{
+  "name": "@better-qr/react",
+  "version": "0.2.0",
+  "description": "React SVG adapter for better-qr",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rollup -c && tsc -p tsconfig.types.json",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit",
+    "prepack": "npm run build",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "better-qr": "^0.2.0",
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^12.3.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "better-qr": "file:../..",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "rollup": "^4.60.1",
+    "tslib": "^2.8.1",
+    "typescript": "^5.8.3",
+    "vitest": "^4.1.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wrknbuycnsmndie/better-qr.git",
+    "directory": "packages/react"
+  },
+  "license": "MIT"
+}

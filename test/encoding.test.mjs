@@ -1,4 +1,5 @@
 import { describe, expect, test } from "vitest";
+
 import { createBitBuffer } from "../src/bit-buffer.ts";
 import { appendSegment, getTotalBits, makeSegment } from "../src/segments.ts";
 
