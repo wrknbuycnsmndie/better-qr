@@ -7,13 +7,13 @@ type ResolvedMode = Exclude<EncodingMode, "auto">;
 const MODE_INDICATORS: Record<ResolvedMode, number> = {
   numeric: 0b0001,
   alphanumeric: 0b0010,
-  byte: 0b0100
+  byte: 0b0100,
 };
 
 const CHARACTER_COUNT_BITS: Record<ResolvedMode, readonly [number, number, number]> = {
   numeric: [10, 12, 14],
   alphanumeric: [9, 11, 13],
-  byte: [8, 16, 16]
+  byte: [8, 16, 16],
 };
 
 const textEncoder = new TextEncoder();
@@ -29,7 +29,10 @@ export interface Segment {
   appendData(buffer: BitBuffer): void;
 }
 
-export function makeSegment(input: string | Uint8Array, requestedMode: EncodingMode = "auto"): Segment {
+export function makeSegment(
+  input: string | Uint8Array,
+  requestedMode: EncodingMode = "auto",
+): Segment {
   if (input instanceof Uint8Array) {
     if (requestedMode !== "auto" && requestedMode !== "byte") {
       throw new TypeError("Uint8Array input can only be encoded in byte mode");
@@ -81,20 +84,27 @@ function makeNumericSegment(input: string): Segment {
     mode: "numeric",
     characterCount: input.length,
     // Numeric mode stores groups of 3, 2, and 1 digits in 10, 7, and 4 bits.
-    dataBitLength: Math.floor(input.length / 3) * 10 + (input.length % 3 === 1 ? 4 : input.length % 3 === 2 ? 7 : 0),
+    dataBitLength:
+      Math.floor(input.length / 3) * 10 +
+      (input.length % 3 === 1 ? 4 : input.length % 3 === 2 ? 7 : 0),
     appendData(buffer) {
       for (let i = 0; i < input.length; i += 3) {
         const chunk = input.slice(i, i + 3);
-        buffer.append(Number.parseInt(chunk, 10), chunk.length === 3 ? 10 : chunk.length === 2 ? 7 : 4);
+        buffer.append(
+          Number.parseInt(chunk, 10),
+          chunk.length === 3 ? 10 : chunk.length === 2 ? 7 : 4,
+        );
       }
-    }
+    },
   };
 }
 
 function makeAlphanumericSegment(input: string): Segment {
   const indexes = [...input].map(getAlphanumericValue);
   if (indexes.some((index) => index < 0)) {
-    throw new TypeError("Alphanumeric QR mode only accepts digits, uppercase letters, space, and $%*+-./:");
+    throw new TypeError(
+      "Alphanumeric QR mode only accepts digits, uppercase letters, space, and $%*+-./:",
+    );
   }
 
   return {
@@ -115,7 +125,7 @@ function makeAlphanumericSegment(input: string): Segment {
           buffer.append(first * 45 + second, 11);
         }
       }
-    }
+    },
   };
 }
 
@@ -130,7 +140,7 @@ function makeByteSegment(bytes: Uint8Array): Segment {
       for (const byte of data) {
         buffer.append(byte, 8);
       }
-    }
+    },
   };
 }
 

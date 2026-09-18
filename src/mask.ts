@@ -1,6 +1,6 @@
 import { drawFormatBits } from "./function-patterns.js";
-import { applyMask, type MatrixState } from "./matrix.js";
 import { getPenaltyScore } from "./mask-scoring.js";
+import { applyMask, type MatrixState } from "./matrix.js";
 
 /**
  * Applies all eight mask patterns and returns the one with the lowest penalty score.

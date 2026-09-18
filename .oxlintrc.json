@@ -1,0 +1,46 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": [
+    "eslint",
+    "typescript",
+    "unicorn",
+    "oxc",
+    "import",
+    "node",
+    "promise",
+    "react",
+    "jsx-a11y",
+    "vue",
+    "vitest"
+  ],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error",
+    "perf": "warn"
+  },
+  "rules": {
+    "typescript/no-explicit-any": "error",
+    "typescript/consistent-type-imports": "error",
+    "import/no-unassigned-import": "allow",
+    "react/react-in-jsx-scope": "allow",
+    "unicorn/no-array-sort": "allow",
+    "unicorn/no-new-array": "allow",
+    "no-console": "warn",
+    "no-debugger": "error"
+  },
+  "overrides": [
+    {
+      "files": ["test/mask-scoring.test.mjs"],
+      "rules": {
+        "no-shadow": "allow"
+      }
+    },
+    {
+      "files": ["test/package.test.mjs"],
+      "rules": {
+        "vitest/no-standalone-expect": "allow"
+      }
+    }
+  ],
+  "ignorePatterns": ["dist", "coverage", "node_modules"]
+}

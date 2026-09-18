@@ -1,5 +1,5 @@
-import { getErrorCorrectionFormatBits } from "./tables.js";
 import { setFunctionModule, type MatrixState } from "./matrix.js";
+import { getErrorCorrectionFormatBits } from "./tables.js";
 
 /**
  * Draws all reserved QR function modules before data placement.
@@ -79,7 +79,12 @@ function drawAlignmentPatterns(state: MatrixState): void {
 function drawAlignmentPattern(state: MatrixState, centerX: number, centerY: number): void {
   for (let dy = -2; dy <= 2; dy++) {
     for (let dx = -2; dx <= 2; dx++) {
-      setFunctionModule(state, centerX + dx, centerY + dy, Math.max(Math.abs(dx), Math.abs(dy)) !== 1);
+      setFunctionModule(
+        state,
+        centerX + dx,
+        centerY + dy,
+        Math.max(Math.abs(dx), Math.abs(dy)) !== 1,
+      );
     }
   }
 }

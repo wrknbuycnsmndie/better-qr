@@ -1,4 +1,5 @@
 import { existsSync } from "node:fs";
+
 import { describe, expect, test } from "vitest";
 
 const testIfBuilt = existsSync(new URL("../dist/index.js", import.meta.url)) ? test : test.skip;

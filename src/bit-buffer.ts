@@ -35,6 +35,6 @@ export function createBitBuffer(): BitBuffer {
         result.push(value);
       }
       return result;
-    }
+    },
   };
 }
