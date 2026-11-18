@@ -67,11 +67,20 @@ function drawTimingPatterns(state: MatrixState): void {
 
 function drawAlignmentPatterns(state: MatrixState): void {
   const alignments = getAlignmentPatternPositions(state.version);
+  const firstCenter = alignments.at(0);
+  const lastCenter = alignments.at(-1);
+
   for (const y of alignments) {
     for (const x of alignments) {
-      if (!state.isFunction[y][x]) {
-        drawAlignmentPattern(state, x, y);
-      }
+      const overlapsFinder =
+        (x === firstCenter && y === firstCenter) ||
+        (x === lastCenter && y === firstCenter) ||
+        (x === firstCenter && y === lastCenter);
+
+      // Alignment patterns can overwrite timing modules, but not finder corners.
+      if (overlapsFinder) continue;
+
+      drawAlignmentPattern(state, x, y);
     }
   }
 }

@@ -34,6 +34,26 @@ describe("QR matrix", () => {
     expect(version7.isFunction[34][0]).toBe(true);
   });
 
+  test.each([
+    { row: 6, column: 22 },
+    { row: 22, column: 6 },
+  ])("draws a version 7 alignment pattern at ($row, $column)", ({ row, column }) => {
+    const state = createMatrixState(7, "M");
+    drawFunctionPatterns(state);
+
+    // `?` marks a module still available for data rather than reserved for the pattern.
+    const pattern = state.modules.slice(row - 2, row + 3).map((modules, dy) =>
+      modules
+        .slice(column - 2, column + 3)
+        .map((dark, dx) =>
+          state.isFunction[row - 2 + dy][column - 2 + dx] ? (dark ? "#" : ".") : "?",
+        )
+        .join(""),
+    );
+
+    expect(pattern).toEqual(["#####", "#...#", "#.#.#", "#...#", "#####"]);
+  });
+
   test("freezes a public QR code with coordinate validation", () => {
     const state = createMatrixState(1, "M");
     state.modules[0][0] = true;
